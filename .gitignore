@@ -30,3 +30,4 @@
 *.exe
 *.out
 *.app
+/atan2test/atan2test/atan2test/Log.txt
