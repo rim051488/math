@@ -12,8 +12,23 @@ Position2 RotatePosition(const Position2& center, float angle, Position2 pos) {
 	//②原点中心に回転して
 	//③中心を元の座標へ戻す
 	Position2 ret = pos;
+	//①posからcenterを引く
+	//②回転
+	//③centerを足す
+	//※Geometry.hにベクトル加減算は定義しているので、それを使ったほうが早い
+
+	// 平行移動の時はposをいじくる
+	pos -= center;
+	//p' = pcosθ(angle）- qsinθ
+	//q' = psinθ(angle) - qcosθ
+	//retの中身がこのになるようにしてください
+
+	//回転
+	ret.x = pos.x * cos(angle) - pos.y * sin(angle);
+	ret.y = pos.x * sin(angle) + pos.y * cos(angle);
 
 	//ここに回転変換を書いてください
+	ret += center;
 	return ret;//デフォルトはそのまま返してます。
 	//これを書き換えて、特定の点を中心に回転を行うようにしてください。
 }
