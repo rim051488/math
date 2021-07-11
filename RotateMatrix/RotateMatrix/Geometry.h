@@ -105,12 +105,12 @@ Matrix RotateMat(float angle);
 ///@param rmat 右辺値(行列)
 ///@attention 乗算の順序に注意してください
 Matrix MultipleMat(const Matrix& lmat, const Matrix& rmat);
-
+Matrix operator*(const Matrix& lmat, const Matrix& rmat);
 ///ベクトルに対して行列乗算を適用し、結果のベクトルを返す
 ///@param mat 行列
 ///@param vec ベクトル
 Vector2 MultipleVec(const Matrix& mat, const Vector2& vec);
-
+Vector2 operator*(const Matrix& mat, const Vector2& vec);
 
 
 

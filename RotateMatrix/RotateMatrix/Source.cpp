@@ -12,10 +12,12 @@ Position2 RotatePosition(const Position2& center, float angle, Position2 pos) {
 	//②原点中心に回転して
 	//③中心を元の座標へ戻す
 
-	Matrix mat = MultipleMat(TranslateMat(center.x, center.y),
-							MultipleMat(RotateMat(angle),
-								TranslateMat(-center.x, -center.y)));
-	return MultipleVec(mat, pos);
+	//Matrix mat = MultipleMat(TranslateMat(center.x, center.y),
+	//						MultipleMat(RotateMat(angle),
+	//							TranslateMat(-center.x, -center.y)));
+	Matrix mat = TranslateMat(center.x, center.y) * RotateMat(angle) * TranslateMat(-center.x, -center.y);
+
+	return mat, pos;
 	//これを書き換えて、特定の点を中心に回転を行うようにしてください。
 }
 

@@ -104,19 +104,38 @@ MultipleMat(const Matrix& lmat, const Matrix& rmat) {
 
 }
 
+Matrix operator*(const Matrix& lmat, const Matrix& rmat)
+{
+	return MultipleMat(lmat, rmat);
+}
+
 ///ベクトルに対して行列乗算を適用し、結果のベクトルを返す
 ///@param mat 行列
 ///@param vec ベクトル
 Vector2 
 MultipleVec(const Matrix& mat, const Vector2& vec) {
 	Vector2 ret = {};
+	ret.x = mat.m[0][0] * vec.x + mat.m[0][1] + mat.m[0][2];
+	ret.y = mat.m[0][0] * vec.y + mat.m[1][0] + mat.m[2][0];
+	//ret.y = mat.m[0][0] * vec.y + mat.m[0][1] + mat.m[0][2];
 	return ret;
+}
+
+Vector2 operator*(const Matrix& mat, const Vector2& vec)
+{
+	return MultipleVec(mat, vec);
 }
 
 
 ///単位行列を返す
+//単位行列は全部に０をいれて、
+//左上から右下まで１を入れる
 Matrix IdentityMat() {
-	Matrix ret = {};
+	Matrix ret = {};		//この時点ですべてに0が入ってる
+	//[0][0][1][1][2][2]
+	ret.m[0][0] = 1.0f;
+	ret.m[1][1] = 1.0f;
+	ret.m[2][2] = 1.0f;
 	return ret;
 }
 
