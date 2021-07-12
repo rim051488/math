@@ -17,7 +17,7 @@ Position2 RotatePosition(const Position2& center, float angle, Position2 pos) {
 	//							TranslateMat(-center.x, -center.y)));
 	Matrix mat = TranslateMat(center.x, center.y) * RotateMat(angle) * TranslateMat(-center.x, -center.y);
 
-	return mat, pos;
+	return mat * pos;
 	//これを書き換えて、特定の点を中心に回転を行うようにしてください。
 }
 

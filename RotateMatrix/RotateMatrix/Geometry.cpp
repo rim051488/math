@@ -99,7 +99,7 @@ Vector2::operator-=(const Vector2& v) {
 ///@attention æZ‚Ì‡˜‚É’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢
 Matrix 
 MultipleMat(const Matrix& lmat, const Matrix& rmat) {
-	Matrix ret = {};
+	Matrix ret = IdentityMat();
 	return ret;
 
 }
@@ -115,9 +115,8 @@ Matrix operator*(const Matrix& lmat, const Matrix& rmat)
 Vector2 
 MultipleVec(const Matrix& mat, const Vector2& vec) {
 	Vector2 ret = {};
-	ret.x = mat.m[0][0] * vec.x + mat.m[0][1] + mat.m[0][2];
-	ret.y = mat.m[0][0] * vec.y + mat.m[1][0] + mat.m[2][0];
-	//ret.y = mat.m[0][0] * vec.y + mat.m[0][1] + mat.m[0][2];
+	ret.x = mat.m[0][0] * vec.x + mat.m[0][1] * vec.y + mat.m[0][2];
+	ret.y = mat.m[1][0] * vec.x + mat.m[1][1] * vec.y + mat.m[1][2];
 	return ret;
 }
 
@@ -143,13 +142,13 @@ Matrix IdentityMat() {
 ///@param x X•ûŒü•½sˆÚ“®—Ê
 ///@param y Y•ûŒü•½sˆÚ“®—Ê
 Matrix TranslateMat(float x, float y) {
-	Matrix ret = {};
+	Matrix ret = IdentityMat();
 	return ret;
 }
 
 ///‰ñ“]s—ñ‚ğ•Ô‚·
 ///@param angle ‰ñ“]Šp“x
 Matrix RotateMat(float angle) {
-	Matrix ret = {};
+	Matrix ret = IdentityMat();
 	return ret;
 }
