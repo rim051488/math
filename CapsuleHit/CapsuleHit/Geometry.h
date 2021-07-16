@@ -49,11 +49,25 @@ float operator%(const Vector2& va, const Vector2& vb);
 //Positionのほうがよくね？って理由でこの名前
 typedef Vector2 Position2;
 
+
+//円
 struct Circle {
 	float radius;//半径
 	Position2 pos; //中心座標
 	Circle() :radius(0), pos(0, 0) {}
-	Circle(float r, Position2& p) :radius(r), pos(p) {}
+	Circle(float r, const Position2& p) :radius(r), pos(p) {}
+};
+
+//カプセル
+struct Capsule {
+	float radius;//半径
+	Position2 posA; //端点A
+	Position2 posB; //端点B
+	Capsule() :radius(0), posA(0, 0), posB(0, 0) {}
+	Capsule(float r, const Position2& a, const Position2& b):
+		radius(r), posA(a), posB(b) {}
+	Capsule(float r, float ax,float ay, float bx,float by) :
+		radius(r), posA(ax,ay), posB(bx,by) {}
 };
 
 struct Rect {
@@ -85,7 +99,7 @@ struct Rect {
 };
 
 struct Matrix {
-	float m[3][3];//行と列がありますがm[行][列]
+	float m[3][3];
 };
 
 ///単位行列を返す
@@ -105,12 +119,12 @@ Matrix RotateMat(float angle);
 ///@param rmat 右辺値(行列)
 ///@attention 乗算の順序に注意してください
 Matrix MultipleMat(const Matrix& lmat, const Matrix& rmat);
-Matrix operator*(const Matrix& lmat, const Matrix& rmat);
+
 ///ベクトルに対して行列乗算を適用し、結果のベクトルを返す
 ///@param mat 行列
 ///@param vec ベクトル
 Vector2 MultipleVec(const Matrix& mat, const Vector2& vec);
-Vector2 operator*(const Matrix& mat, const Vector2& vec);
+
 
 
 

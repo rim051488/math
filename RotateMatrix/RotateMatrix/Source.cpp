@@ -15,11 +15,29 @@ Position2 RotatePosition(const Position2& center, float angle, Position2 pos) {
 	//Matrix mat = MultipleMat(TranslateMat(center.x, center.y),
 	//						MultipleMat(RotateMat(angle),
 	//							TranslateMat(-center.x, -center.y)));
-	Matrix mat = TranslateMat(center.x, center.y) * RotateMat(angle) * TranslateMat(-center.x, -center.y);
+	Matrix mat = TranslateMat(center.x, center.y) * //‡B
+		RotateMat(angle) *//‡A
+		TranslateMat(-center.x, -center.y);//‡@
 
 	return mat * pos;
 	//‚±‚ê‚ğ‘‚«Š·‚¦‚ÄA“Á’è‚Ì“_‚ğ’†S‚É‰ñ“]‚ğs‚¤‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢B
 }
+
+// 
+Matrix RotateMatrixAtCenter(const Position2& center, float angle) {
+	//‡@’†S‚ğŒ´“_‚É•½sˆÚ“®‚µ‚Ä
+	//‡AŒ´“_’†S‚É‰ñ“]‚µ‚Ä
+	//‡B’†S‚ğŒ³‚ÌÀ•W‚Ö–ß‚·
+
+	//Matrix mat = MultipleMat(TranslateMat(center.x, center.y),
+	//						MultipleMat(RotateMat(angle),
+	//							TranslateMat(-center.x, -center.y)));
+	return TranslateMat(center.x, center.y) * //‡B
+		RotateMat(angle) *//‡A
+		TranslateMat(-center.x, -center.y);//‡@
+
+}
+
 
 int WINAPI WinMain(HINSTANCE , HINSTANCE, LPSTR,int) {
 	ChangeWindowMode(true);
@@ -27,11 +45,17 @@ int WINAPI WinMain(HINSTANCE , HINSTANCE, LPSTR,int) {
 	SetDrawScreen(DX_SCREEN_BACK);
 
 
-	Position2 positions[4] = {
+	Position2 positions[8] = {
 		{100,100},//¶ã
 		{200,100},//‰Eã
 		{200,200},//‰E‰º
 		{100,200},//¶‰º
+
+		{150,50},//¶ã
+		{150,250},//‰Eã
+		{180,300},//‰E‰º
+		{180,100},//¶‰º
+
 	};
 
 	float angle = 0.0f;
@@ -52,10 +76,10 @@ int WINAPI WinMain(HINSTANCE , HINSTANCE, LPSTR,int) {
 		else {
 			angle = 0.0f;
 		}
-
+		auto mat = RotateMatrixAtCenter(Position2(mx, my), angle);
 		//‚»‚ê‚¼‚ê‚Ì’¸“_‚É‰ñ“]•ÏŠ·‚ğ{‚·
 		for (auto& pos : positions) {
-			pos = RotatePosition(Position2(mx, my), angle, pos);
+			pos = mat * pos;
 		}
 
 		DrawQuadrangleAA(
@@ -64,6 +88,13 @@ int WINAPI WinMain(HINSTANCE , HINSTANCE, LPSTR,int) {
 			positions[2].x, positions[2].y, 
 			positions[3].x, positions[3].y, 
 			0xffffff,false);
+		DrawQuadrangleAA(
+			positions[0 +4].x, positions[0 + 4].y,
+			positions[1 + 4].x, positions[1 + 4].y,
+			positions[2 + 4].x, positions[2 + 4].y,
+			positions[3 + 4].x, positions[3 + 4].y,
+			0xffffff, false);
+
 		ScreenFlip();
 	}
 	DxLib_End();

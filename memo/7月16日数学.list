@@ -1,0 +1,57 @@
+特定の点を中心に回転する
+①中心を原点に移動する
+②回転する
+③中心をもとの座標に戻す
+
+回転、拡大縮小、平行移動、(せん断)
+←アフィン変換←最終的にはこの変換を
+複数合成して、座標変換に利用する。
+
+基本になるのは単位行列
+単位行列とは
+|1 0 0|
+|0 1 0|
+|0 0 1|
+
+回転にせよ、平行移動にせよ、こいつを基本として考える
+
+回転行列
+|cos -sin 0|
+|sin  cos 0|
+|0     0  1|
+
+平行移動行列
+|1 0 p|
+|0 1 q|
+|0 0 1|
+
+
+M=|1 0 p||cos -sin 0||1 0 -p|
+  |0 1 p||sin  cos 0||0 1 -q|
+  |0 0 1|| 0    0  1||0 0  1|
+
+|cos -sin 0||1 0 -p|
+|sin  cos 0||0 1 -q|
+| 0    0  1||0 0  1|
+=
+|cos -sin -pcos+qsin|
+|sin  cos -psin-qcos|
+| 0    0       1    |
+
+
+M=|1 0 p||cos -sin -pcos+qsin|
+  |0 1 p||sin  cos -psin-qcos|
+  |0 0 1|| 0    0       1    |
+
+|cos -sin -pcos+qsin+p|
+|sin  cos -psin-qcos+q|
+| 0    0        1     |
+
+|a b c||x|=|ax+by+c|
+|d e f||y| |dx+ey+f|
+|g h i||1| |   1   |
+
+|a b c||j k l|=|aj+bm+cp ak+bn+cq al+bo+cr|
+|d e f||m n o| |dj+em+fp dk+en+fq dl+eo+fr|
+|g h i||p q r| |gj+hm+ip gk+hn+iq gl+ho+ir|
+

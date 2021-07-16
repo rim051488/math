@@ -99,7 +99,59 @@ Vector2::operator-=(const Vector2& v) {
 ///@attention æZ‚Ì‡˜‚É’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢
 Matrix 
 MultipleMat(const Matrix& lmat, const Matrix& rmat) {
-	Matrix ret = IdentityMat();
+	Matrix ret = {};
+	//js–Ú
+	for (int j = 0; j < 3; ++j)
+	{
+		//i—ñ–Ú
+		for (int i = 0; i < 3; ++i)
+		{
+			for (int k = 0; k < 3; ++k)
+			{
+				ret.m[j][i] += lmat.m[j][k] * rmat.m[k][i];
+			}
+		}
+	}
+//	//‚Ps–Ú
+//	// ‚P—ñ–Ú
+//	ret.m[0][0] = lmat.m[0][0]* rmat.m[0][0] + 
+//						lmat.m[0][1] * rmat.m[1][0] +	
+//						lmat.m[0][2] * rmat.m[2][0];
+//	//‚Q—ñ–Ú
+//	ret.m[0][1] = lmat.m[0][0] * rmat.m[0][1] +
+//					lmat.m[0][1] * rmat.m[1][1] +
+//					lmat.m[0][2] * rmat.m[2][1];
+//	//‚R—ñ–Ú
+//	ret.m[0][2] = lmat.m[0][0] * rmat.m[0][2] +
+//						lmat.m[0][1] * rmat.m[1][2] +
+//						lmat.m[0][2] * rmat.m[2][2];
+//	//‚Qs–Ú
+//// ‚P—ñ–Ú
+//	ret.m[1][0] = lmat.m[1][0] * rmat.m[0][0] +
+//						lmat.m[1][1] * rmat.m[1][0] +
+//						lmat.m[1][2] * rmat.m[2][0];
+//	//‚Q—ñ–Ú
+//	ret.m[1][1] = lmat.m[1][0] * rmat.m[0][1] +
+//						lmat.m[1][1] * rmat.m[1][1] +
+//						lmat.m[1][2] * rmat.m[2][1];
+//	//‚R—ñ–Ú
+//	ret.m[1][2] = lmat.m[1][0] * rmat.m[0][2] +
+//						lmat.m[1][1] * rmat.m[1][2] +
+//						lmat.m[1][2] * rmat.m[2][2];
+//	//‚Rs–Ú
+//	// ‚P—ñ–Ú
+//	ret.m[2][0] = lmat.m[2][0] * rmat.m[0][0] +
+//						lmat.m[2][1] * rmat.m[1][0] +
+//						lmat.m[2][2] * rmat.m[2][0];
+//	//‚Q—ñ–Ú
+//	ret.m[2][1] = lmat.m[2][0] * rmat.m[0][1] +
+//						lmat.m[2][1] * rmat.m[1][1] +
+//						lmat.m[2][2] * rmat.m[2][1];
+//	//‚R—ñ–Ú
+//	ret.m[2][2] = lmat.m[2][0] * rmat.m[0][2] +
+//						lmat.m[2][1] * rmat.m[1][2] +
+//						lmat.m[2][2] * rmat.m[2][2];
+
 	return ret;
 
 }
@@ -143,6 +195,9 @@ Matrix IdentityMat() {
 ///@param y Y•ûŒü•½sˆÚ“®—Ê
 Matrix TranslateMat(float x, float y) {
 	Matrix ret = IdentityMat();
+	//Matrix ret = {};
+	ret.m[0][2] = x;
+	ret.m[1][2] = y;
 	return ret;
 }
 
@@ -150,5 +205,9 @@ Matrix TranslateMat(float x, float y) {
 ///@param angle ‰ñ“]Šp“x
 Matrix RotateMat(float angle) {
 	Matrix ret = IdentityMat();
+	ret.m[0][0] = cos(angle);
+	ret.m[0][1] = -sin(angle);
+	ret.m[1][0] = sin(angle);
+	ret.m[1][1] = cos(angle);
 	return ret;
 }
