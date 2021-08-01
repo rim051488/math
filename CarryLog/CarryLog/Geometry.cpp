@@ -42,8 +42,9 @@ Vector2::Magnitude()const {
 
 float Vector2::SQMagnitude() const
 {
-	return x * x + y* y;
+	return x * x + y * y;
 }
+
 
 void
 Vector2::Normalize() {
@@ -63,13 +64,13 @@ Vector2::Normalized() {
 ///内積を返す
 float
 Dot(const Vector2& va, const Vector2& vb) {
-	return va.x * vb.x + va.y * vb.y;
+	return va.x*vb.x + va.y*vb.y;
 }
 
 ///外積を返す
 float
 Cross(const Vector2& va, const Vector2& vb) {
-	return va.x * vb.y - vb.x * va.y;
+	return va.x*vb.y - vb.x*va.y;
 }
 
 ///内積演算子
@@ -119,7 +120,7 @@ MultipleMat(const Matrix& lmat, const Matrix& rmat) {
 
 Matrix operator*(const Matrix& lmat, const Matrix& rmat)
 {
-	return MultipleMat(lmat,rmat);
+	return MultipleMat(lmat, rmat);
 }
 
 ///ベクトルに対して行列乗算を適用し、結果のベクトルを返す

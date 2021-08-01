@@ -14,9 +14,9 @@ struct Vector2 {
 	float x, y;
 	///ベクトルの大きさを返します
 	float Magnitude()const;
-	
-	///ベクトルの大きさの２条
-	float SQMagnitude() const;
+
+	// ベクトルの大きさの2乗
+	float SQMagnitude()const;
 
 	///正規化(大きさを１に)します
 	void Normalize();

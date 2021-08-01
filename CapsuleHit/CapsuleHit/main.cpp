@@ -33,9 +33,9 @@ Matrix RotatePosition(const Position2& center, float angle) {
 	//②原点中心に回転して
 	//③中心を元の座標へ戻す
 
-	Matrix mat = MultipleMat(TranslateMat(center.x, center.y),
-		MultipleMat(RotateMat(angle),
-			TranslateMat(-center.x, -center.y)));
+	Matrix mat = TranslateMat(center.x, center.y)*
+		RotateMat(angle)*
+			TranslateMat(-center.x, -center.y);
 	return mat;
 }
 
@@ -43,7 +43,10 @@ Matrix RotatePosition(const Position2& center, float angle) {
 ///なお、カプセルには端点Aと端点Bがあるが、どちらの点もcenterを中心に回転してください。
 ///前回のRotateMatrixの実装は済んでいるため、すぐにできると思います。
 Capsule RotateCapsule(Position2 center, float angle, const Capsule &cap) {
+	Matrix rot = RotatePosition(center, angle);
 	Capsule ret = cap;
+	ret.posA = rot * cap.posA;
+	ret.posB = rot * cap.posB;
 	return ret;
 }
 
@@ -57,7 +60,7 @@ Capsule RotateCapsule(Position2 center, float angle, const Capsule &cap) {
 float Clamp(float value, float minVal = 0.0f, float maxVal = 1.0f) {
 	//今は値をそのまま返していますが、クランプ(最小値最大値の範囲を超えたら最小値もしくは最大値にする)した
 	//値を返してください。
-	return value;
+	return max(min(value, maxVal), minVal);
 }
 
 //カプセルと円が当たったか？
@@ -66,15 +69,21 @@ float Clamp(float value, float minVal = 0.0f, float maxVal = 1.0f) {
 bool IsHit(const Capsule& cap, const Circle& cc) {
 	//手順
 	//①まず、カプセル形状の端点cap.posAからccの中心点までのベクトルvpを作ります。
+	auto T = cc.pos - cap.posA;
 	//②次にカプセル形状そのもののベクトルposA→posBへのベクトルvを作ります。
+	auto L = cap.posB - cap.posA;
 	//③①と②の内積を求めます。
+	auto dot = Dot(T, L);
 	//④③の結果を②の大きさの2乗で割ります
+	auto s = dot / L.SQMagnitude();
 	//⑤④の結果をクランプします
+	s = Clamp(s);
 	//⑥⑤の結果を②の結果にかけます
+	auto V = T - L * s;
 	//⑦①のベクトルから②のベクトルを引きます
 	//⑧⑦のベクトルの大きさを測ります
 	//⑨⑧の値と、cap.radius+cc.radiusの値を比較します。
-	return false;
+	return V.Magnitude() <= cap.radius + cc.radius;
 	
 }
 
@@ -82,6 +91,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ChangeWindowMode(true);
 
 	DxLib_Init();
+	SetMainWindowText("2016025_永冨心");
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	Circle c(50, Position2(50, 50));
