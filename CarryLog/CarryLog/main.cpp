@@ -68,10 +68,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int wdW, wdH;
 	GetGraphSize(woodH, &wdW, &wdH);
 	wdW = 200;
+	bool WoodHflag = true;
 
 	auto cascadeH = LoadGraph("img/cascade_chip.png");
 	auto chipH = LoadGraph("img/atlas0.png");
 	auto rockH = LoadGraph("img/rock.png");
+	auto marioH = LoadGraph("img/mario.png");
+	auto luigiH = LoadGraph("img/luigi.png");
+	auto explosionH = LoadGraph("img/explosion.png");
 
 	Capsule cap(20,Position2((sw-wdW)/2,sh-100),Position2((sw - wdW) / 2+wdW,sh-100));
 	srand((unsigned int)GetTickCount());
@@ -82,6 +86,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float angle = 0.0f;
 
 	int frame = 0;
+	int explosionframe = 0;
 	bool isLeft = false;
 	while (ProcessMessage() == 0) {
 		ClearDrawScreen();
@@ -122,9 +127,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//当たり判定を完成させて当たったときの反応を書いてください
 		if(IsHit(cap,circle)){
 			//反応をここに書いてください。
-
+			cap.posA = Position2((sw - wdW) / 2, sh - 100);
+			cap.posB = Position2((sw - wdW) / 2 + wdW, sh - 100);
+			circle.pos = Position2(rand() % 512, 24);
 		}
-
 		//カプセル回転
 		Matrix rotMat=RotatePosition(Position2(mx, my), angle);
 		cap.posA = MultipleVec(rotMat, cap.posA);
@@ -159,11 +165,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			destY += dest_chip_size;
 		}
 
-		DrawRotaGraph(circle.pos.x, circle.pos.y,2.0f,0.0f, rockH, true);
+		DrawRotaGraph(circle.pos.x, circle.pos.y, 2.0f, 0.0f, rockH, true);
 		DrawCircle(circle.pos.x, circle.pos.y, circle.radius, 0xff0000, false, 3);
 		circle.pos.y += 1.0f;
-		DrawWood(cap, woodH);
-		DrawCircle(mx, my, 30, 0xff0000, false, 3);
+		if (circle.pos.y >= 850)
+		{
+			circle.pos.x = rand() % 512;
+			circle.pos.y = 24;
+		}
+
+		if (WoodHflag)
+		{
+			DrawWood(cap, woodH);
+			DrawCircle(mx, my, 30, 0xff0000, false, 3);
+		}
+		else
+		{
+
+		}
 		++frame;
 		
 		ScreenFlip();
