@@ -70,6 +70,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	wdW = 200;
 	bool WoodHflag = true;
 
+	Vector2 posA = { 0.0f,0.0f };
+	Vector2 posB = { 0.0f,0.0f };
+
 	auto cascadeH = LoadGraph("img/cascade_chip.png");
 	auto chipH = LoadGraph("img/atlas0.png");
 	auto rockH = LoadGraph("img/rock.png");
@@ -123,13 +126,35 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		else {
 			angle = 0.0f;
 		}
-
 		//当たり判定を完成させて当たったときの反応を書いてください
 		if(IsHit(cap,circle)){
 			//反応をここに書いてください。
+			posA = cap.posA;
+			posB = cap.posB;
+			WoodHflag = false;
+
 			cap.posA = Position2((sw - wdW) / 2, sh - 100);
 			cap.posB = Position2((sw - wdW) / 2 + wdW, sh - 100);
 			circle.pos = Position2(rand() % 512, 24);
+		}
+
+		if (cap.posA.x >= posB.x - posA.x)
+		{
+			posA = cap.posA;
+			posB = cap.posB;
+			WoodHflag = false;
+
+			cap.posA = Position2((sw - wdW) / 2, sh - 100);
+			cap.posB = Position2((sw - wdW) / 2 + wdW, sh - 100);
+		}
+		if (cap.posB.x <= posB.x - posA.x)
+		{
+			posA = cap.posA;
+			posB = cap.posB;
+			WoodHflag = false;
+
+			cap.posA = Position2((sw - wdW) / 2, sh - 100);
+			cap.posB = Position2((sw - wdW) / 2 + wdW, sh - 100);
 		}
 		//カプセル回転
 		Matrix rotMat=RotatePosition(Position2(mx, my), angle);
@@ -181,7 +206,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		else
 		{
-
+			DrawRotaGraph(posA.x, posA.y, 2.0f, 0.0f, marioH, true);
+			DrawRotaGraph(posB.x, posB.y, 2.0f, 0.0f, luigiH, true);
+		}
+		if (posA.y >= 850 || posB.y >= 850)
+		{
+			WoodHflag = true;
+		}
+		else
+		{
+			posA.y += 5.0f;
+			posB.y += 5.0f;
 		}
 		++frame;
 		
