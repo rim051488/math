@@ -7,8 +7,8 @@ using namespace std;
 
 ///カプセル形状の描画
 void DrawCapsule(const Capsule& cap,unsigned int color) {
-	DrawCircle(cap.posA.x, cap.posA.y, cap.radius, color);
-	DrawCircle(cap.posB.x, cap.posB.y, cap.radius, color);
+	//DrawCircle(cap.posA.x, cap.posA.y, cap.radius, color);
+	//DrawCircle(cap.posB.x, cap.posB.y, cap.radius, color);
 
 	auto v = cap.posB - cap.posA;
 	auto angle = atan2(v.y, v.x)-DX_PI_F/2.0f;
@@ -95,7 +95,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	Circle c(50, Position2(50, 50));
-	Capsule cap(20,Position2(100,200),Position2(300,200));
+	Capsule cap(20,Position2(50,100),Position2(50,300));
+	//Capsule cap(20,Position2(100,200),Position2(300,200));
 
 	char keystate[256];
 	
